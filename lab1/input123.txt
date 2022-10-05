@@ -1,0 +1,6 @@
+Write a java program to accomplish the following tasks given a text file as input.
+Example text: There is a cat and a mouse in a house.
+The cat names Tom, and the mouse names Jerry.
+They are cat-mouse couple that always make kidding together.
+This line has some text is not a word input123, abc.txt, a23bc and abc_ptr.
+My name is Yen!

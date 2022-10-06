@@ -32,7 +32,7 @@ public class Mapper {
         // abc123, abc.txt, abc_def => is not word
         // abc. , abc, abc?, abc! => is word
         // abc-def => abc and def => is 2 words
-        Pattern pattern = Pattern.compile("^[A-Za-z]+[!,?\\.]*$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("^[A-Za-z]+[!,?.]*$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(text);
 
         if(matcher.find()) {

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Solution2A {
 
-    private static final String FILE_NAME = "lab2A/testDataForW1D1.txt";
+    private static final String FILE_NAME = "lab1/testDataForW1D1.txt";
 
     private static final Mapper mapper = new Mapper();
     private static Reducer reducer = new Reducer();

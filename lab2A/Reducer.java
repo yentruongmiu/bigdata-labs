@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,7 +7,10 @@ import java.util.stream.Collectors;
 public class Reducer {
     private List<GroupByPair<String, Integer>> groupByPairs = new ArrayList<>();
 
-    public Reducer() {};
+    public Reducer() {
+    }
+
+    ;
 
     public List<GroupByPair<String, Integer>> getGroupByPairs() {
         return groupByPairs;
@@ -15,19 +19,16 @@ public class Reducer {
     public void addPairToGroupByPairs(Pair<String, Integer> pair) {
         //compare key is the same or not => add pair value
         //or create an item then add it
-        if(groupByPairs.size() < 1 ) {
+        if (groupByPairs.size() < 1) {
             GroupByPair<String, Integer> newGroup = new GroupByPair<>(pair.getKey(), pair.getValue());
             groupByPairs.add(newGroup);
         } else {
-            Integer lastIdx = groupByPairs.size() - 1;
-            GroupByPair<String, Integer> lastGroup = groupByPairs.get(lastIdx);
-            if(pair.getKey().equals(lastGroup.getKey())) {
-                lastGroup.addToGroup(pair);
-                groupByPairs.set(lastIdx, lastGroup);
-            } else {
-                GroupByPair<String, Integer> newGroup = new GroupByPair<>(pair.getKey(), pair.getValue());
-                groupByPairs.add(newGroup);
-            }
+            groupByPairs.stream().filter(group -> group.getKey().equals(pair.getKey()))
+                    .findFirst()
+                    .ifPresentOrElse(group -> group.addToGroup(pair), () -> {
+                        GroupByPair<String, Integer> newGroup = new GroupByPair<>(pair.getKey(), pair.getValue());
+                        groupByPairs.add(newGroup);
+                    });
         }
     }
 

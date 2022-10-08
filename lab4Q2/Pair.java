@@ -1,4 +1,5 @@
-package lab1;
+package lab4Q2;
+
 public class Pair<K,V> {
     private K key;
     private V value;

@@ -1,0 +1,26 @@
+FIX PROBLEM OF AGGRIAGTION FOR LARGE DATA
+
+class FourValues
+    ({max, min, sum, count})
+
+class Mapper
+ method initialize()
+    H = new AssociateiveArray()
+
+ method map(docid a, doc d)
+  u = getUserID(r) //record
+  t = getTime(r)
+
+
+  if(H{u} is null)
+    H{u} = new FourValues(t,t,t,1)
+
+  else
+    H{u}.max = Max(H{u}.max, t)
+    H{u}.min = Min(H{u}.min, t)
+    H{u}.sum = H{u}.sum + 1
+    H{u}.count = H{u}.count + 1
+
+  method close()
+    for all term u in H do
+        Emit(u, H{u})

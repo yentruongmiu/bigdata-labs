@@ -1,4 +1,4 @@
-package lab2A;
+package lab4Q1;
 
 import java.util.ArrayList;
 import java.util.Arrays;

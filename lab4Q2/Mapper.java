@@ -1,19 +1,16 @@
-package lab1;
+package lab4Q2;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import lab1.Pair;
-
 public class Mapper {
-    private List<Pair<String, Integer>> words = new ArrayList<>();
+    private List<Pair<String, List<Integer>>> outPutWords = new ArrayList<>();
+
+    private List<Pair<String, List<Integer>>> words = new ArrayList<>();
 
     public Mapper() {}
 
@@ -23,40 +20,51 @@ public class Mapper {
                 String record = scanner.nextLine();
                 processRecord(record);
             }
+            wordsMap();
         } catch(IOException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public List<Pair<String, Integer>> getListWord() {
+    public List<Pair<String, List<Integer>>> getListWord() {
         return this.words;
     }
 
-    public void addToList(String text) {
-        String word = getWord(text);
-        if(word != "") {
-            //input word to listWord if it is word
-            Pair<String, Integer> pair = new Pair(word, 1);
-            words.add(pair);
-        }
+    public List<Pair<String, List<Integer>>> getOutPutWords() {
+        return this.outPutWords;
+    }
+
+    private void wordsMap() {
+        sortWords();
+        words.forEach((w) -> {
+            if(outPutWords.size() == 0) {
+                outPutWords.add(new Pair<String, List<Integer>>(w.getKey(), w.getValue()));
+            } else {
+                int lastIdx = outPutWords.size() - 1;
+                Pair<String, List<Integer>> tmp = outPutWords.get(lastIdx);
+                if(tmp.getKey().equals(w.getKey())) {
+                    List<Integer> oldValues = tmp.getValue();
+                    List<Integer> newValues = new ArrayList<>(Arrays.asList(oldValues.get(0) + w.getValue().get(0), oldValues.get(1) + 1));
+                    outPutWords.get(lastIdx).setValue(newValues);
+                } else {
+                    outPutWords.add(new Pair<>(w.getKey(), w.getValue()));
+                }
+            }
+        });
     }
 
     public void addOrCombineToList(String text) {
         String word = getWord(text);
         if(word != "") {
-            words.stream().filter(w -> word.equals(w.getKey()))
-                    .findFirst()
-                    .ifPresentOrElse((w) -> {
-                        w.setValue(w.getValue() + 1);
-                    }, () -> {
-                        Pair<String, Integer> pair = new Pair(word, 1);
-                        words.add(pair);
-                    });
+            words.add(new Pair(String.valueOf(word.charAt(0)), Arrays.asList(word.length(), 1)));
         }
     }
 
     public void printWords() {
         words.forEach(System.out::println);
+    }
+    public void printMapperOutput() {
+        outPutWords.forEach(System.out::println);
     }
 
     private String getWord(String text) {
@@ -82,10 +90,15 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
+    public void close(Reducer reducer, Pair<String, List<Integer>> groupByPair) {
+        //Emit data to reducer
+        reducer.addPairToGroupByPairs(groupByPair);
+    }
+
     private void processRecord(String record) {
         List<String> list = List.of(record.split("[ \\-\"\']"));
         for(String text : list) {
-            addToList(text);
+            addOrCombineToList(text);
         }
     }
 }

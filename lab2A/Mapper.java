@@ -1,4 +1,6 @@
-package lab1;
+package lab2A;
+
+import lab2A.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +11,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import lab1.Pair;
 
 public class Mapper {
     private List<Pair<String, Integer>> words = new ArrayList<>();
@@ -56,6 +56,7 @@ public class Mapper {
     }
 
     public void printWords() {
+        //System.out.println("number words: " + words.size());
         words.forEach(System.out::println);
     }
 
@@ -82,9 +83,15 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
+    public void close(Reducer reducer, Pair<String, Integer> pair) {
+        //Emit data to reducer
+        reducer.addPairToGroupByPairs(pair);
+    }
+
     private void processRecord(String record) {
         List<String> list = List.of(record.split("[ \\-\"\']"));
         for(String text : list) {
+            //addOrCombineToList(text);
             addToList(text);
         }
     }

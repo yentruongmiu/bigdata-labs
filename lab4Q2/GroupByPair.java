@@ -1,4 +1,4 @@
-package lab2A;
+package lab4Q2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ public class GroupByPair<K, V> {
     public GroupByPair(K key, V value) {
         this.key = key;
         this.values.add(value);
+    }
+    public GroupByPair(K key, List<V> values) {
+        this.key = key;
+        values.forEach(value -> this.values.add(value));
     }
 
     public GroupByPair(K key) {
@@ -25,6 +29,13 @@ public class GroupByPair<K, V> {
 
     public List<V> getValues() {
         return values;
+    }
+
+    public void setValues(List<V> values) {
+        this.values = values;
+    }
+    public void addValues(V value) {
+        this.values.add(value);
     }
 
     public void addToGroup(Pair<K,V> pair) {

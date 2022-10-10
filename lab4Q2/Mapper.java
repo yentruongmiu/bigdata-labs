@@ -90,9 +90,9 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
-    public void close(Reducer reducer, Pair<String, List<Integer>> groupByPair) {
-        //Emit data to reducer
-        reducer.addPairToGroupByPairs(groupByPair);
+    public void close(){
+        //Emit data to console
+        printMapperOutput();
     }
 
     private void processRecord(String record) {

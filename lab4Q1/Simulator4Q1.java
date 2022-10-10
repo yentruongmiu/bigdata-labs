@@ -11,19 +11,16 @@ public class Simulator4Q1 {
         for(int i = 0; i < mapperNumber; i++) {
             Mapper mapper = wordCount.getMapperByIndex(i);
             mapper.Map(inputSplit.replace("{%s}", "" + i + ""));
-
-            System.out.println("Mapper " + i + " Output");
-            mapper.printWords();
         }
         wordCount.mapperProduceWords();
+        for(int i = 0; i < mapperNumber; i++) {
+            Mapper mapper = wordCount.getMapperByIndex(i);
+            System.out.println("Mapper " + i + " Output");
+            mapper.close();
+        }
         for(int i = 0; i < 4; i++) {
             Reducer reducer = wordCount.getReducerByIndex(i);
-            reducer.sortGroupByPairs();
-            System.out.println("Reducer " + i + " input");
-            reducer.printInputGroupByPairs();
-
-            System.out.println("Reducer " + i + " output");
-            reducer.printOutputGroupByPairs();
+            Reducer.reducer(reducer, i);
         }
     }
 

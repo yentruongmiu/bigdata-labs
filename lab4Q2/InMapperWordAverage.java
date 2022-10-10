@@ -63,7 +63,7 @@ public class InMapperWordAverage {
                     emitPairs.put(key, tmp);
                 }
                 Reducer reducer = reducers.get(idxReducer);
-                mapper.close(reducer, groupPair);
+                reducer.addPairToGroupByPairs(groupPair);
             }
         }
         emitPairs.forEach( (key, items) -> {

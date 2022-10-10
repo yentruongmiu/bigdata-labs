@@ -82,9 +82,9 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
-    public void close(Reducer reducer, Pair<String, Integer> pair) {
-        //Emit data to reducer
-        reducer.addPairToGroupByPairs(pair);
+    public void close() {
+        //Emit data to console
+        printWords();
     }
 
     private void processRecord(String record) {

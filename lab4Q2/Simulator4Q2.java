@@ -12,20 +12,17 @@ public class Simulator4Q2 {
         for(int i = 1; i <= mapperNumber; i++) {
             Mapper mapper = wordAverage.getMapperByIndex(i - 1);
             mapper.Map(filename.replace("{%s}", "" + i + ""));
-
-            System.out.println("Mapper " + (i-1) + " output");
-            mapper.printMapperOutput();
+        }
+        for(int i = 0; i < mapperNumber; i++) {
+            Mapper mapper = wordAverage.getMapperByIndex(i);
+            System.out.println("Mapper " + i + " output");
+            mapper.close();
         }
         wordAverage.calculateReducerForEmitting();
         for(int i = 0; i < reducerNumber; i++) {
             Reducer reducer = wordAverage.getReducerByIndex(i);
-            reducer.sortGroupByPairs();
 
-            System.out.println("Reducer " + i + " input");
-            reducer.printInputGroupByPairs();
-
-            System.out.println("Reducer " + i + " output");
-            reducer.printOutputGroupByPairs();
+            Reducer.reducer(reducer, i);
         }
     }
 }

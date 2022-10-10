@@ -62,7 +62,7 @@ public class InMapperWordCount {
                     producePairs.put(key, tmp);
                 }
                 Reducer reducer = reducers.get(idxReducer);
-                mapper.close(reducer, pair);
+                reducer.addPairToGroupByPairs(pair);
             }
         }
         producePairs.forEach( (key, items) -> {

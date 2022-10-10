@@ -46,6 +46,16 @@ public class Reducer {
         groupByPairs.forEach(this::printOutputGroupByPair);
     }
 
+    public static void reducer(Reducer reducer, int reducerIdx) {
+        reducer.sortGroupByPairs();
+
+        System.out.println("Reducer " + reducerIdx + " input");
+        reducer.printInputGroupByPairs();
+
+        System.out.println("Reducer " + reducerIdx + " output");
+        reducer.printOutputGroupByPairs();
+    }
+
     private void printOutputGroupByPair(GroupByPair<String, List<Integer>> groupByPair) {
         DecimalFormat df = new DecimalFormat("#.################");
 
